@@ -3,16 +3,22 @@ import { SchedulesState, VehicleProps } from "../types";
 // import { vehicleData } from "../constants/data";
 import axios from "axios";
 
+// apiService.js
+
+const API_BASE_URL = "http://localhost:3440";
+
 // Thunk action to fetch schedule data from the API
 export const fetchSchedule = createAsyncThunk(
   "schedules/fetchSchedules",
   async () => {
     await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate a 2-second delay
 
-    const response = await axios.get("http://localhost:3440/vehicles");
+    const response = await axios(`${API_BASE_URL}/vehicles`);
     return response.data;
   }
 );
+
+// Other API calls and functions...
 
 const initialState: SchedulesState = {
   data: [],
