@@ -5,7 +5,7 @@ import axios from "axios";
 
 // apiService.js
 
-const API_BASE_URL = "http://localhost:3440";
+const API_BASE_URL = "https://vehicle-service-y81m.onrender.com";
 
 // Thunk action to fetch schedule data from the API
 export const fetchSchedule = createAsyncThunk(
