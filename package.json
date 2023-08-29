@@ -16,6 +16,7 @@
     "axios": "^1.4.0",
     "dayjs": "^1.11.9",
     "react": "^18.2.0",
+    "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",
     "react-redux": "^8.1.1",
@@ -49,6 +50,7 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@types/react-beautiful-dnd": "^13.1.4"
   }
 }

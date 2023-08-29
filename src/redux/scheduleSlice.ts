@@ -13,7 +13,7 @@ export const fetchSchedule = createAsyncThunk(
   async () => {
     await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate a 2-second delay
 
-    const response = await axios(`${API_BASE_URL}/vehicles`);
+    const response = await axios(`http://localhost:3440/vehicles`);
     return response.data;
   }
 );
@@ -29,6 +29,7 @@ const initialState: SchedulesState = {
   filterValue: "Vehicles",
   currentPage: 1,
   pageSize: 10,
+  resizeEnd: 0,
 };
 
 const schedulesSlice = createSlice({
@@ -50,6 +51,89 @@ const schedulesSlice = createSlice({
     clearSearchAndFilter: (state) => {
       state.searchTerm = "";
       state.filterValue = "Vehicles";
+    },
+    setUpdatedSchedule: (
+      state,
+      action: PayloadAction<{
+        index: number;
+        days: number;
+        brand: string;
+        direction: string;
+      }>
+    ) => {
+      const { index, days, brand, direction } = action.payload;
+
+      const brandToUpdate = state.data.find((data) => data.brand === brand);
+      let updatedResizeEnd = state.resizeEnd;
+
+      if (!brandToUpdate) {
+        console.error("Brand not found");
+        return state; // Return the original state
+      }
+
+      const scheduleToUpdate = brandToUpdate.schedules.find(
+        (schedule) => schedule.schedule_id === index
+      );
+
+      if (!scheduleToUpdate) {
+        console.error("Schedule not found");
+        return state; // Return the original state
+      }
+
+      const isStartDirection = direction === "start";
+      const dateToUpdate = isStartDirection
+        ? scheduleToUpdate.startDate
+        : scheduleToUpdate.endDate;
+      const originalDate = new Date(dateToUpdate);
+
+      const updatedDate = new Date(
+        originalDate.getTime() +
+          (isStartDirection ? -1 : 1) * days * 24 * 60 * 60 * 1000
+      );
+
+      if (!isStartDirection) {
+        const scheduleIndex = brandToUpdate.schedules.findIndex(
+          (schedule) => schedule.schedule_id === index
+        );
+
+        if (
+          scheduleIndex !== -1 &&
+          scheduleIndex < brandToUpdate.schedules.length - 1
+        ) {
+          const nextSchedule = brandToUpdate.schedules[scheduleIndex + 1];
+          const nextScheduleStartDate = new Date(nextSchedule.startDate);
+
+          if (updatedDate >= nextScheduleStartDate) {
+            updatedDate.setDate(nextScheduleStartDate.getDate() - 1);
+          }
+        }
+      }
+
+      if (isStartDirection) {
+        const scheduleIndex = brandToUpdate.schedules.findIndex(
+          (schedule) => schedule.schedule_id === index
+        );
+        if (scheduleIndex !== -1 && scheduleIndex !== 0) {
+          const nextSchedule = brandToUpdate.schedules[scheduleIndex - 1];
+          const nextScheduleEndDate = new Date(nextSchedule.endDate);
+
+          if (updatedDate <= nextScheduleEndDate) {
+            updatedDate.setDate(nextScheduleEndDate.getDate() + 1);
+          }
+        }
+
+        scheduleToUpdate.startDate = updatedDate.toISOString().split("T")[0];
+      } else {
+        scheduleToUpdate.endDate = updatedDate.toISOString().split("T")[0];
+      }
+
+      const updatedData = state.data.map((data) =>
+        data.brand === brand
+          ? { ...data, schedules: [...data.schedules] }
+          : data
+      );
+      state.data = updatedData;
+      state.resizeEnd = updatedResizeEnd;
     },
   },
   extraReducers: (builder) => {
@@ -76,6 +160,7 @@ export const {
   setSearchTerm,
   setFilter,
   setCurrentPage,
+  setUpdatedSchedule,
   setPageSize,
   clearSearchAndFilter,
 } = schedulesSlice.actions;

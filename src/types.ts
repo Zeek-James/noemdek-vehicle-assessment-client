@@ -4,6 +4,7 @@ dayjs.locale("en");
 dayjs.extend(require("dayjs/plugin/isSameOrBefore"));
 
 export interface ScheduleProps {
+  schedule_id: number;
   startDate: string;
   endDate: string;
   startTime: string;
@@ -19,8 +20,9 @@ export interface ScheduleProps {
 
 export type VehicleProps = {
   brand: string;
-  size: string;
+  id: number;
   schedules: ScheduleProps[];
+  size: string;
   status: boolean;
 };
 
@@ -55,4 +57,5 @@ export interface SchedulesState {
   filterValue: string;
   currentPage: number;
   pageSize: number;
+  resizeEnd: number;
 }

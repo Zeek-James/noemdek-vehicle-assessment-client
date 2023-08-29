@@ -11,7 +11,7 @@ type Props = {};
 const Layout: React.FC = (props: Props) => {
   return (
     <div className="">
-      <div className="xl:flex max-w-[1440px] overflow-hidden mx-auto bg-slate-200 min-h-screen shadow-lg hidden">
+      <div className="lg:flex max-w-[1440px] overflow-hidden mx-auto bg-slate-200 min-h-screen shadow-lg hidden">
         <MenuBar />
         <div className="bg-inherit flex-1 p-4 pt-6">
           <div className="flex space-x-8 items-end">
@@ -24,7 +24,7 @@ const Layout: React.FC = (props: Props) => {
           <SchedulingInterface />
         </div>
       </div>
-      <div className="flex justify-center items-center h-screen flex-col space-y-6 xl:hidden">
+      <div className="flex justify-center items-center h-screen flex-col space-y-6 lg:hidden">
         <h1 className="font-bold text-3xl">
           App is Currently Built for Desktop View
         </h1>
