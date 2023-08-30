@@ -41,6 +41,22 @@ const useScheduleRows: React.FC<ScheduleTableProps> = ({
                 .toLowerCase()
                 .includes(searchTerm.toLowerCase()))
         );
+        let sch = 0;
+        if (schedule) {
+          const scheduleIndex = vehicle.schedules.findIndex(
+            (s) =>
+              s.startDate <= schedule.startDate &&
+              s.endDate >= schedule.endDate &&
+              (s.client.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                s.driver.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                s.clients_company
+                  .toLowerCase()
+                  .includes(searchTerm.toLowerCase()))
+          );
+          sch = scheduleIndex;
+        }
+
+        console.log(sch);
 
         const handleScheduleClick = () => {
           setSelectedSchedule(schedule as SetStateAction<ScheduleProps | null>);
@@ -50,53 +66,49 @@ const useScheduleRows: React.FC<ScheduleTableProps> = ({
           return (
             <Draggable
               draggableId={schedule.schedule_id.toString()}
-              index={index}
+              index={sch}
               key={schedule.schedule_id}
             >
               {(provided) => (
-                <td
-                  key={date}
+                <div
                   {...provided.dragHandleProps}
                   {...provided.draggableProps}
                   ref={provided.innerRef}
                   // onClick={handleScheduleClick}
-                  className=" w-[110px]  hover:scale-105  cursor-pointer transition-transform duration-300 max-h-fit rounded-md py-2 border-b border-b-slate-300 relative"
+                  className=" w-[110px]  hover:scale-105  cursor-pointer transition-transform duration-300 max-h-fit rounded-md py-2  relative"
                 >
                   <div className="bg-blue-300 ml-[10px] h-[55px] rounded-md p-[5px] flex flex-col justify-center z-20 relative">
                     <p className="text-[10px] font-bold">{schedule.driver}</p>
-                    <p className="text-[10px] font-normal">{schedule.client}</p>
+                    <p className="text-[10px] font-normal">
+                      {schedule.startDate}
+                    </p>
                     <p className="text-[10px] font-normal">
                       {schedule.clients_company}
                     </p>
                   </div>
-                </td>
+                </div>
               )}
             </Draggable>
           );
         }
 
         return (
-          <td key={date} className="w-[110px] py-2 border-b border-b-slate-300">
+          <div key={date} className="w-[110px] py-2 ">
             <div className="min-h-[80px]" />
-          </td>
+          </div>
         );
       });
 
       return (
-        <Draggable
-          draggableId={vehicle.id.toString()}
-          index={idx}
-          key={vehicle.id}
-        >
+        <Draggable draggableId={vehicle.id} index={idx} key={vehicle.id}>
           {(provided) => (
-            <tr
-              key={idx}
-              className=""
+            <div
+              className="flex"
               {...provided.dragHandleProps}
               {...provided.draggableProps}
               ref={provided.innerRef}
             >
-              <td className="border-r-2  w-[260px] border-slate-300  border-b border-b-slate-300">
+              <div className="border-r-2  w-[208px] border-slate-300  border-b border-b-slate-300">
                 <div className="flex p-1  items-center gap-2">
                   <img src={pic} alt="" className="w-[70px] object-contain" />
                   <div className="space-y-1">
@@ -113,35 +125,36 @@ const useScheduleRows: React.FC<ScheduleTableProps> = ({
                     </p>
                   </div>
                 </div>
-              </td>{" "}
-              <Droppable droppableId={"id"}>
+              </div>
+              <Droppable droppableId={vehicle.id} direction="horizontal">
                 {(provided) => (
                   <div
                     {...provided.droppableProps}
                     ref={provided.innerRef}
-                    className="flex   justify-around"
+                    className="w-full"
                   >
-                    {scheduleCells}
-                    {/* {provided.placeholder} */}
+                    <div className="flex w-full  justify-around border-b border-b-slate-300 items-center min-h-[100px]">
+                      {scheduleCells}
+                      {/* {provided.placeholder} */}
+                    </div>
                   </div>
                 )}
               </Droppable>
-            </tr>
+            </div>
           )}
         </Draggable>
       );
     }
   );
   return (
-    // <Droppable droppableId="ROOT" type="group">
-    // {(provided) => (
-    <tbody>
-      {/* <tbody {...provided.droppableProps} ref={provided.innerRef}> */}
-      {scheduleRows}
-      {/* {provided.placeholder} */}
-    </tbody>
-    //   )}
-    // </Droppable>
+    <Droppable droppableId="ROOT" type="group">
+      {(provided) => (
+        <div {...provided.droppableProps} ref={provided.innerRef}>
+          {scheduleRows}
+          {provided.placeholder}
+        </div>
+      )}
+    </Droppable>
   );
 };
 

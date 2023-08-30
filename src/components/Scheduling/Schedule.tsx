@@ -5,7 +5,7 @@ import "dayjs/plugin/isSameOrBefore";
 import { BiSolidChevronLeft, BiSolidChevronRight } from "react-icons/bi";
 import SchedulePopup from "./SchedulePopup";
 import { ScheduleProps } from "../../types";
-import { ScheduleTable } from "./ScheduleTable";
+// import { ScheduleTable } from "./ScheduleTable";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { fetchSchedule } from "../../redux/scheduleSlice";
@@ -13,6 +13,7 @@ import { AppDispatch } from "../../redux/store";
 import { useDispatch } from "react-redux";
 import LoadingIndicator from "../LoadingIndicator";
 import { goToNextWeek, goToPreviousWeek } from "./helpers";
+import { ScheduleTable } from "./NewTable";
 
 dayjs.locale("en");
 dayjs.extend(require("dayjs/plugin/isSameOrBefore"));

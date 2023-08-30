@@ -4,12 +4,13 @@ dayjs.locale("en");
 dayjs.extend(require("dayjs/plugin/isSameOrBefore"));
 
 export interface ScheduleProps {
-  schedule_id: number;
+  schedule_id: string;
   startDate: string;
   endDate: string;
   startTime: string;
   endTime: string;
   driver: string;
+  drag_index: number;
   client: string;
   clients_company: string;
   service: string;
@@ -20,7 +21,7 @@ export interface ScheduleProps {
 
 export type VehicleProps = {
   brand: string;
-  id: number;
+  id: string;
   schedules: ScheduleProps[];
   size: string;
   status: boolean;

@@ -54,7 +54,7 @@ const useScheduleRows: React.FC<ScheduleTableProps> = ({
               key={schedule.schedule_id}
             >
               {(provided) => (
-                <td
+                <div
                   key={date}
                   {...provided.dragHandleProps}
                   {...provided.draggableProps}
@@ -69,16 +69,19 @@ const useScheduleRows: React.FC<ScheduleTableProps> = ({
                       {schedule.clients_company}
                     </p>
                   </div>
-                </td>
+                </div>
               )}
             </Draggable>
           );
         }
 
         return (
-          <td key={date} className="w-[110px] py-2 border-b border-b-slate-300">
+          <div
+            key={date}
+            className="w-[110px] py-2 border-b border-b-slate-300"
+          >
             <div className="min-h-[80px]" />
-          </td>
+          </div>
         );
       });
 
@@ -89,14 +92,14 @@ const useScheduleRows: React.FC<ScheduleTableProps> = ({
           key={vehicle.id}
         >
           {(provided) => (
-            <tr
+            <div
               key={idx}
               className=""
               {...provided.dragHandleProps}
               {...provided.draggableProps}
               ref={provided.innerRef}
             >
-              <td className="border-r-2  w-[260px] border-slate-300  border-b border-b-slate-300">
+              <div className="border-r-2  w-[260px] border-slate-300  border-b border-b-slate-300">
                 <div className="flex p-1  items-center gap-2">
                   <img src={pic} alt="" className="w-[70px] object-contain" />
                   <div className="space-y-1">
@@ -113,7 +116,7 @@ const useScheduleRows: React.FC<ScheduleTableProps> = ({
                     </p>
                   </div>
                 </div>
-              </td>{" "}
+              </div>{" "}
               <Droppable droppableId={"id"}>
                 {(provided) => (
                   <div
@@ -126,23 +129,13 @@ const useScheduleRows: React.FC<ScheduleTableProps> = ({
                   </div>
                 )}
               </Droppable>
-            </tr>
+            </div>
           )}
         </Draggable>
       );
     }
   );
-  return (
-    // <Droppable droppableId="ROOT" type="group">
-    // {(provided) => (
-    <tbody>
-      {/* <tbody {...provided.droppableProps} ref={provided.innerRef}> */}
-      {scheduleRows}
-      {/* {provided.placeholder} */}
-    </tbody>
-    //   )}
-    // </Droppable>
-  );
+  return <div>{scheduleRows}</div>;
 };
 
 export default useScheduleRows;

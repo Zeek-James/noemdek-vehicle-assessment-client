@@ -55,7 +55,7 @@ const schedulesSlice = createSlice({
     setUpdatedSchedule: (
       state,
       action: PayloadAction<{
-        index: number;
+        index: string;
         days: number;
         brand: string;
         direction: string;
@@ -135,6 +135,13 @@ const schedulesSlice = createSlice({
       state.data = updatedData;
       state.resizeEnd = updatedResizeEnd;
     },
+
+    scheduleDragAndDropUpdate: (
+      state,
+      action: PayloadAction<VehicleProps[]>
+    ) => {
+      state.data = action.payload; // Reverse the array to display in descending order
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -146,7 +153,7 @@ const schedulesSlice = createSlice({
         fetchSchedule.fulfilled,
         (state, action: PayloadAction<VehicleProps[]>) => {
           state.isLoading = false;
-          state.data = action.payload.reverse(); // Reverse the array to display in descending order
+          state.data = action.payload; // Reverse the array to display in descending order
         }
       )
       .addCase(fetchSchedule.rejected, (state, action: PayloadAction<any>) => {
@@ -163,6 +170,7 @@ export const {
   setUpdatedSchedule,
   setPageSize,
   clearSearchAndFilter,
+  scheduleDragAndDropUpdate,
 } = schedulesSlice.actions;
 
 export default schedulesSlice.reducer;
