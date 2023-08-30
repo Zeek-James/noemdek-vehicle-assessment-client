@@ -1,20 +1,9 @@
 .resizeable {
   position: absolute;
-  /* left: 0; */
-  /* width: 100px; */
-  /* border: 2px solid green;
-  height: 100px;
-  border-radius: 3px;
-  display: flex;
-  min-height: 15px;
-  min-width: 15px;
-  justify-content: center;
-  align-items: center; */
 }
 
 .resizer {
   position: absolute;
-  /* background-color: black; */
 }
 
 .resizer-r {

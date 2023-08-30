@@ -2,18 +2,37 @@
 import dayjs, { Dayjs } from "dayjs";
 import { ScheduleProps, VehicleProps } from "../../types";
 
-// Helper function to navigate to previous week
+// // Helper function to navigate to previous week
+// export const goToPreviousWeek = (
+//   setCurrentDate: React.Dispatch<React.SetStateAction<Dayjs>>
+// ) => {
+//   setCurrentDate((prevDate) => prevDate.subtract(1, "week"));
+// };
+
+// // Helper function to navigate to next week
+// export const goToNextWeek = (
+//   setCurrentDate: React.Dispatch<React.SetStateAction<Dayjs>>
+// ) => {
+//   setCurrentDate((prevDate) => prevDate.add(1, "week"));
+// };
+
+import { AppDispatch } from "../../redux/store";
+import { setCurrentWeek } from "../../redux/scheduleSlice"; // Import the action
+
 export const goToPreviousWeek = (
-  setCurrentDate: React.Dispatch<React.SetStateAction<Dayjs>>
+  dispatch: AppDispatch,
+  currentDate: dayjs.Dayjs
 ) => {
-  setCurrentDate((prevDate) => prevDate.subtract(1, "week"));
+  const previousWeek = currentDate.subtract(1, "week");
+  dispatch(setCurrentWeek(previousWeek.format())); // Update Redux state
 };
 
-// Helper function to navigate to next week
 export const goToNextWeek = (
-  setCurrentDate: React.Dispatch<React.SetStateAction<Dayjs>>
+  dispatch: AppDispatch,
+  currentDate: dayjs.Dayjs
 ) => {
-  setCurrentDate((prevDate) => prevDate.add(1, "week"));
+  const nextWeek = currentDate.add(1, "week");
+  dispatch(setCurrentWeek(nextWeek.format())); // Update Redux state
 };
 
 // Helper function to get an array of dates for the given week (starting from Sunday)

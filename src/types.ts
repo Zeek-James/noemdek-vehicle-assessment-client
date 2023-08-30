@@ -59,4 +59,5 @@ export interface SchedulesState {
   currentPage: number;
   pageSize: number;
   resizeEnd: number;
+  currentWeek: string;
 }

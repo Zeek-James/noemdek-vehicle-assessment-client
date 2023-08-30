@@ -1,4 +1,7 @@
+import dayjs from "dayjs";
+import "dayjs/locale/en";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+
 import { SchedulesState, VehicleProps } from "../types";
 // import { vehicleData } from "../constants/data";
 import axios from "axios";
@@ -18,6 +21,10 @@ export const fetchSchedule = createAsyncThunk(
   }
 );
 
+const today = dayjs();
+const startOfWeek = today.startOf("week").day(0).format();
+// return startOfWeek;
+
 // Other API calls and functions...
 
 const initialState: SchedulesState = {
@@ -30,6 +37,7 @@ const initialState: SchedulesState = {
   currentPage: 1,
   pageSize: 10,
   resizeEnd: 0,
+  currentWeek: startOfWeek,
 };
 
 const schedulesSlice = createSlice({
@@ -142,6 +150,9 @@ const schedulesSlice = createSlice({
     ) => {
       state.data = action.payload; // Reverse the array to display in descending order
     },
+    setCurrentWeek: (state, action) => {
+      state.currentWeek = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -171,6 +182,7 @@ export const {
   setPageSize,
   clearSearchAndFilter,
   scheduleDragAndDropUpdate,
+  setCurrentWeek,
 } = schedulesSlice.actions;
 
 export default schedulesSlice.reducer;

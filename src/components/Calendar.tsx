@@ -6,6 +6,8 @@ import "dayjs/plugin/isSameOrBefore";
 import "dayjs/plugin/isSameOrAfter";
 import { BiSolidChevronLeft, BiSolidChevronRight } from "react-icons/bi";
 import { CalendarProps } from "../types";
+import { useDispatch } from "react-redux";
+import { setCurrentWeek } from "../redux/scheduleSlice";
 
 dayjs.locale("en");
 dayjs.extend(require("dayjs/plugin/weekOfYear"));
@@ -14,6 +16,9 @@ dayjs.extend(require("dayjs/plugin/isSameOrAfter"));
 
 export const Calendar: React.FC<CalendarProps> = ({ currentDate }) => {
   const [currentMonth, setCurrentMonth] = useState(dayjs(currentDate));
+  const [selectedWeekStart, setSelectedWeekStart] = useState(dayjs());
+
+  const dispatch = useDispatch();
 
   const goToPreviousMonth = () => {
     setCurrentMonth((prevMonth) => prevMonth.subtract(1, "month"));
@@ -42,7 +47,9 @@ export const Calendar: React.FC<CalendarProps> = ({ currentDate }) => {
     const isCurrentMonth = date.isSame(currentMonth, "month");
     const isCurrentDay = date.isSame(dayjs(), "day");
     const isSameWeek = date.isSame(dayjs(), "week");
-    const dayClasses = `text-center text-[9px] p-1 ${
+    const dayClasses = `text-center text-[9px] p-1 cursor-pointer hover:bg-gray-400
+    hover:scale-105 transition-transform duration-300
+    ${
       isCurrentDay
         ? "bg-blue-500 text-white"
         : isSameWeek
@@ -50,8 +57,17 @@ export const Calendar: React.FC<CalendarProps> = ({ currentDate }) => {
         : ""
     } ${!isCurrentMonth ? "text-gray-500" : ""}`;
 
+    const handleDayClick = () => {
+      const startOfWeek = date.startOf("week");
+      dispatch(setCurrentWeek(startOfWeek.format()));
+    };
+
     return (
-      <div className={dayClasses} key={date.toString()}>
+      <div
+        className={dayClasses}
+        key={date.toString()}
+        onClick={handleDayClick}
+      >
         {date.format("D")}
       </div>
     );

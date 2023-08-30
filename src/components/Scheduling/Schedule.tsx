@@ -21,14 +21,10 @@ dayjs.extend(require("dayjs/plugin/isSameOrBefore"));
 export const Scheduling = () => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const { isLoading } = useSelector((state: RootState) => state.schedules);
+  const { isLoading, currentWeek } = useSelector(
+    (state: RootState) => state.schedules
+  );
 
-  // State variables
-  const [currentDate, setCurrentDate] = useState(() => {
-    const today = dayjs();
-    const startOfWeek = today.startOf("week").day(0);
-    return startOfWeek;
-  });
   const [selectedSchedule, setSelectedSchedule] =
     useState<ScheduleProps | null>(null);
 
@@ -38,23 +34,25 @@ export const Scheduling = () => {
 
   if (isLoading) return <LoadingIndicator />;
 
+  let currentWeekString = dayjs(currentWeek); // Convert back to dayjs instance
+
   return (
     <div>
       <div className="flex text justify-center gap-8 text-black font-bold text-base mb-1">
         <button
           className="text-bold"
-          onClick={() => goToPreviousWeek(setCurrentDate)}
+          onClick={() => goToPreviousWeek(dispatch, dayjs(currentWeek))}
         >
           {" "}
           <BiSolidChevronLeft />
         </button>
         <span className="text-xs font-bold">
-          {currentDate.format("MMMM D")} -{" "}
-          {currentDate.add(6, "day").format("D, YYYY")}
+          {currentWeekString.format("MMMM D")} -{" "}
+          {currentWeekString.add(6, "day").format("D, YYYY")}
         </span>
         <button
           className="text-bold"
-          onClick={() => goToNextWeek(setCurrentDate)}
+          onClick={() => goToNextWeek(dispatch, dayjs(currentWeek))}
         >
           {" "}
           <BiSolidChevronRight />
@@ -62,7 +60,7 @@ export const Scheduling = () => {
       </div>
 
       <ScheduleTable
-        currentDate={currentDate}
+        currentDate={currentWeekString}
         setSelectedSchedule={setSelectedSchedule}
       />
       {selectedSchedule && (
