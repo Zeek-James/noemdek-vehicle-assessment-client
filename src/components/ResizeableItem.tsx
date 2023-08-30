@@ -68,8 +68,8 @@ const ResizableItem = ({ brand, day, schedule }: ResizeableItemProps) => {
       const onMouseUpRightResize = (event: any) => {
         document.removeEventListener("mousemove", onMouseMoveRightResize);
         // Round up the width to the nearest 100 after mouse release
-        const roundedWidth = Math.ceil(width / 110) * 110;
-        const days = Math.ceil(width / 110) - 1;
+        const roundedWidth = Math.ceil(width / 100) * 100;
+        const days = Math.ceil(width / 100) - 1;
         resizeableEle.style.width = `${roundedWidth}px`;
 
         const direction = "end";
@@ -89,6 +89,7 @@ const ResizableItem = ({ brand, day, schedule }: ResizeableItemProps) => {
         event: any
       ) => {
         x = event.clientX;
+        resizeableEle.style.backgroundColor = "#93c5fd";
         resizeableEle.style.left = styles.left;
         resizeableEle.style.right = "";
         document.addEventListener("mousemove", onMouseMoveRightResize);
@@ -135,7 +136,7 @@ const ResizableItem = ({ brand, day, schedule }: ResizeableItemProps) => {
         document.removeEventListener("mousemove", onMouseMoveLeftResize);
         // Round up the width to the nearest 100 after mouse release
         const roundedWidth = Math.ceil(width / 100) * 100;
-        const days = Math.ceil(width / 110) - 1;
+        const days = Math.ceil(width / 100) - 1;
 
         console.log(roundedWidth);
 
@@ -156,6 +157,7 @@ const ResizableItem = ({ brand, day, schedule }: ResizeableItemProps) => {
         event: any
       ) => {
         x = event.clientX;
+        resizeableEle.style.backgroundColor = "#93c5fd";
         resizeableEle.style.right = styles.right;
         resizeableEle.style.left = "";
         document.addEventListener("mousemove", onMouseMoveLeftResize);
@@ -175,13 +177,13 @@ const ResizableItem = ({ brand, day, schedule }: ResizeableItemProps) => {
 
   return (
     <div
-      className={`resizeable  ml-[7px] h-[55px] ${
+      className={`resizeable   h-[55px] ${
         day === "first"
-          ? "w-[88%] rounded-l-md"
+          ? "w-[88%] rounded-l-md ml-[-7px]"
           : day === "last"
-          ? "w-[88%] rounded-r-md"
-          : "w-[94%] rounded-md"
-      } bg-blue-300   z-10`}
+          ? "w-[88%] rounded-r-md ml-[7px]"
+          : "w-[105px] rounded-md ml-[-2px] "
+      }    z-10`}
       // }   bg-pink-300 z-10`}
       ref={ref}
     >

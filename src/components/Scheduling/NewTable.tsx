@@ -45,17 +45,18 @@ export const ScheduleTable: React.FC<ScheduleTableProps> = ({
       return;
 
     if (type === "group") {
-      const reorderedStores = [...data];
+      const reorderedData = [...data];
 
-      const storeSourceIndex = source.index;
-      const storeDestinatonIndex = destination.index;
+      const vehichleSourceIndex = source.index;
+      const vehichleDestinatonIndex = destination.index;
 
-      const [removedStore] = reorderedStores.splice(storeSourceIndex, 1);
-      reorderedStores.splice(storeDestinatonIndex, 0, removedStore);
-      console.log("newStores: ", reorderedStores, data, storeSourceIndex);
+      const [removedStore] = reorderedData.splice(vehichleSourceIndex, 1);
+      reorderedData.splice(vehichleDestinatonIndex, 0, removedStore);
+      console.log("newStores: ", reorderedData, data, vehichleSourceIndex);
 
-      return dispatch(scheduleDragAndDropUpdate(reorderedStores));
+      return dispatch(scheduleDragAndDropUpdate(reorderedData));
     }
+
     const scheduleSourceIndex = source.index;
     const scheduleDestinationIndex = destination.index;
 
@@ -68,8 +69,6 @@ export const ScheduleTable: React.FC<ScheduleTableProps> = ({
     );
 
     const newSourceSchedules = [...data[vehicleSourceIndex].schedules];
-
-    // console.log(scheduleSourceIndex, vehicleSourceIndex, newSourceSchedules);
 
     const newDestinationSchedules =
       source.droppableId !== destination.droppableId
