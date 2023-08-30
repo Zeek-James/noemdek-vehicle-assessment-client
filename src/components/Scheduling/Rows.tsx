@@ -200,7 +200,7 @@ const useScheduleRows: React.FC<ScheduleTableProps> = ({
             // {...provided.draggableProps}
             // ref={provided.innerRef}
           >
-            <div className="border-r-2  w-[208px] border-slate-300  border-b border-b-slate-300">
+            <div className="border-r-2  w-[208px] border-slate-300  border-b border-b-slate-300 flex">
               <div className="flex p-1  items-center gap-2">
                 <img src={pic} alt="" className="w-[70px] object-contain" />
                 <div className="space-y-1">
